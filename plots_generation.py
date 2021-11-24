@@ -16,5 +16,3 @@ def drawing_plots(colomn, average_line=False):
     fig.savefig("plots/" + colomn + " deviations.png")
     return "plots/" + colomn + " deviations.png"
 
-
-print(drawing_plots("mean", average_line=True))
