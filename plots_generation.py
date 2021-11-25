@@ -10,7 +10,7 @@ class Drawing_plots():
         data = pd.read_json("deviations.json")
 
         fig, ax = plt.subplots()
-        ax.plot(data[self.colomn], color="red", label=self.colomn)
+        ax.scatter(range(0,len(data)), data[self.colomn], color="red", label=self.colomn, s=5)
         if self.average_line == True:
             plt.axhline(
                 y=data[self.colomn].mean(), color="blue", linestyle="--", label="average"
@@ -19,3 +19,5 @@ class Drawing_plots():
         ax.legend(loc="upper right")
         fig.savefig("plots/" + self.colomn + " deviations.png")
         return "plots/" + self.colomn + " deviations.png"
+
+Drawing_plots("mean",average_line = False).drawing_plots()
