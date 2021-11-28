@@ -60,7 +60,7 @@ class Drawing_plots():
         if self.plot_type == "pie":
             false_corners = len(data.loc[data.gt_corners != data.rb_corners])
             true_corners = len(data.loc[data.gt_corners == data.rb_corners])
-            fig, ax = plt.subplots(figsize=(6, 6))
+            fig, ax = plt.subplots(figsize=(6, 6),frameon=True)
             ax.pie([true_corners, false_corners], labels=["True " + str(int(true_corners*100/len(data))) + "%", "False " + str(int(false_corners*100/len(data))) + "%"], colors = color_array)
             fig.set(facecolor = "white")
             ax.set(title= "Процент верного определения количества углов")
