@@ -34,27 +34,44 @@ class Drawing_plots():
             file_name = "plots/" + ' '.join([i for i in self.colomn]) + " deviations.png"
 
         if self.plot_type == "hist":
-            fig, axs = plt.subplots(len(self.colomn),1,figsize=(12, 5*len(self.colomn)))
+            fig, axs = plt.subplots(len(self.colomn),1,figsize=(12, 6*len(self.colomn)))
             for i in range(0,len(self.colomn)):
                 axs[i].hist(data[self.colomn[i]],bins=len(data))
-                axs[i].set(title= "Чаастотное распределение для "+ self.colomn[i].upper())
+                axs[i].set(title= "Частотное распределение для "+ self.colomn[i].upper())
+                axs[i].set_xlabel('отклонение (град.)')
+                axs[i].set_ylabel('частота')
                 if self.mean_line == True:
                     axs[i].axvline(data[self.colomn[i]].mean(), color = "red", linestyle='dashed', label=("mean = " + str(data[self.colomn[i]].mean())[0:4]))
                     axs[i].legend(loc="upper right")
             file_name = "plots/" + ' '.join([i for i in self.colomn]) + " hist.png"
         
+        if self.plot_type == "hist_lg":
+            fig, axs = plt.subplots(len(self.colomn),1,figsize=(12, 6*len(self.colomn)))
+            for i in range(0,len(self.colomn)):
+                axs[i].hist(np.log10(data[self.colomn[i]]),bins=len(data))
+                axs[i].set(title= "Частотное распределение для lg от "+ self.colomn[i].upper())
+                axs[i].set_xlabel('отклонение lg(град.)')
+                axs[i].set_ylabel('частота')
+                if self.mean_line == True:
+                    axs[i].axvline(np.log10(data[self.colomn[i]]).mean(), color = "red", linestyle='dashed', label=("mean = " + str(np.log10(data[self.colomn[i]]).mean())[0:4]))
+                    axs[i].legend(loc="upper right")
+            file_name = "plots/" + ' '.join([i for i in self.colomn]) + " lg hist.png"
+
         if self.plot_type == "pie":
             false_corners = len(data.loc[data.gt_corners != data.rb_corners])
             true_corners = len(data.loc[data.gt_corners == data.rb_corners])
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots(figsize=(6, 6))
             ax.pie([true_corners, false_corners], labels=["True " + str(int(true_corners*100/len(data))) + "%", "False " + str(int(false_corners*100/len(data))) + "%"], colors = color_array)
             fig.set(facecolor = "white")
             ax.set(title= "Процент верного определения количества углов")
             file_name = "plots/" + ' '.join([i for i in self.colomn]) + " pie.png"
         
         if self.plot_type == "boxplot":
-            fig, ax = plt.subplots()
-            ax.boxplot(self.colomn, labels= self.labels)
+            fig, ax = plt.subplots(figsize=(12, 6))
+            ax.boxplot(self.colomn,labels= self.labels)
+            ax.set_ylabel('отклонение (град.)')
+            ax.set_xlabel('набор данных')
+            ax.grid()
             file_name = "plots/" + ' '.join([i for i in self.labels]) + " boxplot.png"
         
         
